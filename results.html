@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Feedback Analysis Results</h1>
+
+<h2>Sentiment Analysis</h2>
+<p><strong>Overall Sentiment:</strong> {{ result.analysis.overall_sentiment|upper }}</p>
+
+<h3>Detailed Aspects</h3>
+<ul>
+    {% for aspect in result.analysis.aspects %}
+    <li>
+        <strong>{{ aspect.aspect }}:</strong> {{ aspect.sentiment }} ({{ aspect.text }})
+    </li>
+    {% endfor %}
+</ul>
+
+<h2>Generated Response</h2>
+<div class="card">
+    <div class="card-body">
+        {{ result.response }}
+    </div>
+</div>
+
+{% if result.faq_matches and result.faq_matches != "No relevant FAQ matches found." %}
+<h2 class="mt-4">Relevant FAQ Content</h2>
+{% for match in result.faq_matches %}
+<div class="card mb-3">
+    <div class="card-body">
+        <pre>{{ match }}</pre>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<a href="{{ url_for('feedback') }}" class="btn btn-primary mt-3">Analyze Another Feedback</a>
+{% endblock %}

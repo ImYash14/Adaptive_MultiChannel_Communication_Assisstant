@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Customer Feedback Analysis System</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="company_name" class="form-label">Company Name</label>
+        <input type="text" class="form-control" id="company_name" name="company_name" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">FAQ Input Method</label>
+        <div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="faq_method" id="faq_direct" value="direct" required>
+                <label class="form-check-label" for="faq_direct">Enter FAQ Content Directly</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="faq_method" id="faq_file" value="file">
+                <label class="form-check-label" for="faq_file">Load FAQ from JSON File</label>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3" id="faq_content_div">
+        <label for="faq_content" class="form-label">FAQ Content</label>
+        <textarea class="form-control" id="faq_content" name="faq_content" rows="5"></textarea>
+    </div>
+    <div class="mb-3" id="faq_path_div" style="display: none;">
+        <label for="faq_path" class="form-label">FAQ JSON File Path</label>
+        <input type="text" class="form-control" id="faq_path" name="faq_path">
+    </div>
+    <div class="mb-3">
+        <label for="product_categories" class="form-label">Product Categories (comma-separated)</label>
+        <input type="text" class="form-control" id="product_categories" name="product_categories" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Initialize System</button>
+</form>
+
+<script>
+    document.querySelectorAll('input[name="faq_method"]').forEach((radio) => {
+        radio.addEventListener('change', (e) => {
+            if (e.target.value === 'direct') {
+                document.getElementById('faq_content_div').style.display = 'block';
+                document.getElementById('faq_path_div').style.display = 'none';
+            } else {
+                document.getElementById('faq_content_div').style.display = 'none';
+                document.getElementById('faq_path_div').style.display = 'block';
+            }
+        });
+    });
+</script>
+{% endblock %}
